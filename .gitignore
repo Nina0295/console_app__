@@ -1,0 +1,15 @@
+# Files and folders
+.vs/
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+
+# Project files .NET
+bin/
+obj/
+
+# Build fails
+*.dll
+*.pdb
+*.exe
