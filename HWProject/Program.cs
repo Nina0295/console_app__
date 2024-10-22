@@ -1,7 +1,6 @@
-﻿using HWProject.Core;
-using System;
+﻿using HWProject.Core.Services;
+using HWProject.Core.Interfaces;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace HWProject.ConsoleApp
 {
@@ -13,7 +12,10 @@ namespace HWProject.ConsoleApp
 
             string filePath = @"C:\Users\v-ninabelova\data.json";
             string apiUrl = "https://jsonplaceholder.typicode.com/posts";
-            IDataService dataService = new DataService(filePath);
+            IApiService apiService = new ApiService();
+            IFileService fileService = new FileService(filePath);
+            IValidationService validationService = new ValidationService();
+            IDisplayService displayService = new DisplayService(fileService, validationService);
 
             bool exit = false;
 
@@ -30,15 +32,15 @@ namespace HWProject.ConsoleApp
                 switch (input.ToLower())
                 {
                     case "1":
-                        var data = await dataService.LoadDataFromApiAsync(apiUrl);
-                        dataService.SaveData(data);
+                        var data = await apiService.LoadDataFromApiAsync(apiUrl);
+                        fileService.SaveData(data);
                         Console.WriteLine("Данные загружены и сохранены.");
                         break;
                     case "2":
-                        dataService.DisplayTitles();
+                        displayService.DisplayTitles();
                         break;
                     case "3":
-                        dataService.DeleteData();
+                        fileService.DeleteData();
                         Console.WriteLine("Файл с данными удален.");
                         break;
                     case "q":
